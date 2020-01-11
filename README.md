@@ -10,7 +10,7 @@ This application allows to deploy multi-nodes hadoop cluster with spark 2.4.1 on
 ## Build image
 - Clone the repo 
 - cd inside ../docker-spark-yarn-cluster 
-- Run `docker build -t pierrekieffer/spark-hadoop-cluster .`
+- Run `docker build -t 0xdfdfdf/hadoop-spark-yarn-livy-hive-cluster .`
 
 ## Run  
 - Run `./startHadoopCluster.sh`
