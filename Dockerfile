@@ -7,6 +7,7 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y openssh-serv
 RUN  apt-get -y update
 RUN  apt-get -y install zip 
 RUN  apt-get -y install vim
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 RUN ssh-keygen -t rsa -f $HOME/.ssh/id_rsa -P "" \
