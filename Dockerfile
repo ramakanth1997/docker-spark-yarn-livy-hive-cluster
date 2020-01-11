@@ -23,9 +23,15 @@ RUN tar xfz spark.tar.gz
 RUN mv /spark-2.4.4-bin-hadoop2.7 /usr/local/spark
 RUN rm /spark.tar.gz
 
+RUN wget -O /livy.zip -q http://ftp.man.poznan.pl/apache/incubator/livy/0.6.0-incubating/apache-livy-0.6.0-incubating-bin.zip
+RUN unzip livy.zip
+RUN mv /apache-livy-0.6.0-incubating-bin /usr/local/livy
+RUN rm livy.zip
 
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
+ENV HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/
+ENV LIVY_HOME=/usr/local/livy
 ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$SPARK_HOME:sbin
 
 RUN mkdir -p $HADOOP_HOME/hdfs/namenode \
@@ -44,7 +50,8 @@ RUN mv /tmp/ssh_config $HOME/.ssh/config \
     && mv /tmp/slaves $SPARK_HOME/conf/slaves \
     && mv /tmp/spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh \
     && mv /tmp/spark/log4j.properties $SPARK_HOME/conf/log4j.properties \
-    && mv /tmp/spark/spark.defaults.conf $SPARK_HOME/conf/spark.defaults.conf
+    && mv /tmp/spark/spark.defaults.conf $SPARK_HOME/conf/spark.defaults.conf \
+    && mv /tmp/livy/livy.conf $LIVY_HOME/conf/livy.conf 
 
 ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 
@@ -57,6 +64,7 @@ EXPOSE 50010 50020 50070 50075 50090 8020 9000
 EXPOSE 10020 19888
 EXPOSE 8030 8031 8032 8033 8040 8042 8088
 EXPOSE 49707 2122 7001 7002 7003 7004 7005 7006 7007 8888 9000
+EXPOSE 3000-3010
 
 ENTRYPOINT service ssh start; cd $SPARK_HOME; bash
 
