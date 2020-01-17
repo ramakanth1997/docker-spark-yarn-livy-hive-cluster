@@ -1,10 +1,11 @@
-# Docker hadoop yarn cluster for spark 2.4.4
+# Docker hadoop yarn cluster for spark 2.4.4 (with livy)
 
 ## TODO:
 - Add HIVE
+- Add Hadoop 3
 
 ## docker-spark-yarn-cluster 
-This application allows to deploy multi-nodes hadoop cluster with spark 2.4.4 on yarn.
+This application allows to deploy multi-nodes hadoop cluster with spark 2.4.4 (with livy) on yarn.
 ## Build image
 - Clone the repo 
 - cd inside ../docker-spark-yarn-cluster 
