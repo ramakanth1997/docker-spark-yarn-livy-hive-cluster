@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 
-USER root
+USER root 
 
 RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y openssh-server default-jdk wget scala
 RUN  apt-get -y update
@@ -18,15 +18,16 @@ RUN wget -O /hadoop.tar.gz -q http://archive.apache.org/dist/hadoop/core/hadoop-
         && mv /hadoop-2.7.3 /usr/local/hadoop \
         && rm /hadoop.tar.gz
 
-RUN wget -O /spark.tar.gz -q https://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
-RUN tar xfz spark.tar.gz
-RUN mv /spark-2.4.4-bin-hadoop2.7 /usr/local/spark
-RUN rm /spark.tar.gz
+RUN wget -O /spark.tgz -q http://archive.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz \
+        && tar xfz spark.tgz \
+        && ls -lah \
+        && mv /spark-2.4.4-bin-hadoop2.7 /usr/local/spark \
+        && rm /spark.tgz
 
-RUN wget -O /livy.zip -q http://ftp.man.poznan.pl/apache/incubator/livy/0.6.0-incubating/apache-livy-0.6.0-incubating-bin.zip
-RUN unzip livy.zip
-RUN mv /apache-livy-0.6.0-incubating-bin /usr/local/livy
-RUN rm livy.zip
+RUN wget -O /livy.zip -q http://ftp.man.poznan.pl/apache/incubator/livy/0.6.0-incubating/apache-livy-0.6.0-incubating-bin.zip \
+        &&  unzip livy.zip \
+        && mv /apache-livy-0.6.0-incubating-bin /usr/local/livy \
+        && rm livy.zip
 
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
