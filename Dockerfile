@@ -57,8 +57,11 @@ ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 
 RUN chmod 744 -R $HADOOP_HOME
 
-
 RUN $HADOOP_HOME/bin/hdfs namenode -format
+
+RUN apt-get -y install python3-pip
+RUN pip3 install --upgrade pip
+RUN pip3 install -r /tmp/python/requirements.txt
 
 EXPOSE 50010 50020 50070 50075 50090 8020 9000
 EXPOSE 10020 19888
