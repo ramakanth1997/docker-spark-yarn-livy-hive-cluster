@@ -25,8 +25,7 @@ This application allows to deploy multi-nodes hadoop cluster with spark 2.4.4 (w
 - [Access to livy](http://localhost:8998)
   
 ## Stop 
-- `docker stop $(docker ps -a -q)`
-- `docker container prune`
+- `docker stop $(docker ps -a -q) && docker container prune`
 
 
 
