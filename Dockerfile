@@ -29,11 +29,18 @@ RUN wget -O /livy.zip -q http://ftp.man.poznan.pl/apache/incubator/livy/0.6.0-in
         && mv /apache-livy-0.6.0-incubating-bin /usr/local/livy \
         && rm livy.zip
 
+RUN wget -O /hive.tar.gz -q http://archive.apache.org/dist/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz \
+        && tar zxf hive.tar.gz \
+        && mv /apache-hive-3.1.2-bin /usr/local/hive \
+        && rm /hive.tar.gz
+
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV SPARK_HOME=/usr/local/spark
 ENV HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/
 ENV LIVY_HOME=/usr/local/livy
-ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$SPARK_HOME:sbin
+ENV HIVE_HOME=/usr/local/hive
+ENV HIVE_CONF_DIR=$HIVE_HOME/conf
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$SPARK_HOME:sbin:$HIVE_HOME/bin
 
 RUN mkdir -p $HADOOP_HOME/hdfs/namenode \
         && mkdir -p $HADOOP_HOME/hdfs/datanode
@@ -52,14 +59,24 @@ RUN mv /tmp/ssh_config $HOME/.ssh/config \
     && mv /tmp/spark/spark-env.sh $SPARK_HOME/conf/spark-env.sh \
     && mv /tmp/spark/log4j.properties $SPARK_HOME/conf/log4j.properties \
     && mv /tmp/spark/spark.defaults.conf $SPARK_HOME/conf/spark.defaults.conf \
-    && mv /tmp/livy/livy.conf $LIVY_HOME/conf/livy.conf 
+    && mv /tmp/livy/livy.conf $LIVY_HOME/conf/livy.conf \
+    && mv /tmp/hive/hive-env.sh $HIVE_CONF_DIR/ \
+    && mv /tmp/hive/hive-site.xml $HIVE_CONF_DIR/ \
+    && mv /tmp/hive/hive-init.sh $HIVE_HOME/
 
 ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 
 RUN chmod 744 -R $HADOOP_HOME
 
 RUN $HADOOP_HOME/bin/hdfs namenode -format
+# RUN hdfs dfs -mkdir -p /user/hive/warehouse
+# RUN hdfs dfs -mkdir /tmp
+# RUN hdfs dfs -chmod g+w /user/hive/warehouse
+# RUN hdfs dfs -chmod g+w /tmp
 
+# RUN schematool -initSchema -dbType derby
+
+RUN apt-get update
 RUN apt-get -y install python3-pip
 RUN pip3 install --upgrade pip
 RUN pip3 install -r /tmp/python/requirements.txt

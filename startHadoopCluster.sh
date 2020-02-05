@@ -28,11 +28,10 @@ docker run --name $HADOOP_MASTER -h $HADOOP_MASTER --net=$NETWORK_NAME \
 		-p  8080:8080 -p 8998:8998 \
 		-itd "$IMG_NAME"
 
-
 # START MULTI-NODES CLUSTER
 docker exec -it $HADOOP_MASTER "/usr/local/hadoop/spark-services.sh"
 docker exec -it $HADOOP_MASTER /bin/bash -c "/usr/local/livy/bin/livy-server start"
-
+docker exec -it $HADOOP_MASTER /bin/bash -c "/usr/local/hive/hive-init.sh"
 
 
 
