@@ -69,12 +69,6 @@ ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 RUN chmod 744 -R $HADOOP_HOME
 
 RUN $HADOOP_HOME/bin/hdfs namenode -format
-# RUN hdfs dfs -mkdir -p /user/hive/warehouse
-# RUN hdfs dfs -mkdir /tmp
-# RUN hdfs dfs -chmod g+w /user/hive/warehouse
-# RUN hdfs dfs -chmod g+w /tmp
-
-# RUN schematool -initSchema -dbType derby
 
 RUN apt-get update
 RUN apt-get -y install python3-pip
