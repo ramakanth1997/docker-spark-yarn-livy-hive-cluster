@@ -16,7 +16,7 @@ i=1
 while [ $i -le $N ]
 do
 	HADOOP_SLAVE="$HOST_PREFIX"-slave-$i
-	docker run --name $HADOOP_SLAVE -h $HADOOP_SLAVE --net=$NETWORK_NAME -itd "$IMG_NAME"
+	docker run --name $HADOOP_SLAVE -h $HADOOP_SLAVE --net=$NETWORK_NAME -p 5007$i:50075 -itd "$IMG_NAME"
 	i=$(( $i + 1 ))
 done
 

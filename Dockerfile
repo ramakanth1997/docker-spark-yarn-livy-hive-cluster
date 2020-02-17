@@ -29,9 +29,9 @@ RUN wget -O /livy.zip -q http://ftp.man.poznan.pl/apache/incubator/livy/0.6.0-in
         && mv /apache-livy-0.6.0-incubating-bin /usr/local/livy \
         && rm livy.zip
 
-RUN wget -O /hive.tar.gz -q http://archive.apache.org/dist/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz \
+RUN wget -O /hive.tar.gz -q http://archive.apache.org/dist/hive/hive-1.2.1/apache-hive-1.2.1-bin.tar.gz \
         && tar zxf hive.tar.gz \
-        && mv /apache-hive-3.1.2-bin /usr/local/hive \
+        && mv /apache-hive-1.2.1-bin /usr/local/hive \
         && rm /hive.tar.gz
 
 ENV HADOOP_HOME=/usr/local/hadoop
@@ -62,7 +62,10 @@ RUN mv /tmp/ssh_config $HOME/.ssh/config \
     && mv /tmp/livy/livy.conf $LIVY_HOME/conf/livy.conf \
     && mv /tmp/hive/hive-env.sh $HIVE_CONF_DIR/ \
     && mv /tmp/hive/hive-site.xml $HIVE_CONF_DIR/ \
-    && mv /tmp/hive/hive-init.sh $HIVE_HOME/
+    && mv /tmp/hive/hive-init.sh $HIVE_HOME/ \
+    && cp $HIVE_CONF_DIR/hive-site.xml $SPARK_HOME/conf/hive-site.xml \
+    && cp $HADOOP_HOME/etc/hadoop/hdfs-site.xml $SPARK_HOME/conf/hdfs-site.xml \
+    && cp $HADOOP_HOME/etc/hadoop/core-site.xml $SPARK_HOME/conf/hdfs-core.xml
 
 ADD scripts/spark-services.sh $HADOOP_HOME/spark-services.sh
 
