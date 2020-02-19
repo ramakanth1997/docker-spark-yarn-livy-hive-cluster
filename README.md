@@ -1,7 +1,6 @@
 # Docker hadoop yarn cluster for spark 2.4.4 (with livy)
 
 ## TODO:
-- Add HIVE
 - Add Hadoop 3
 
 ## docker-spark-yarn-cluster 
