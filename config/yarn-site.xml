@@ -18,6 +18,14 @@
         <name>yarn.resourcemanager.hostname</name>
         <value>mycluster-master</value>
     </property>
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>65536</value> <!-- 64GB -->
+    </property>
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>65536</value> <!-- 64GB -->
+    </property>
 
 <property>
     <name>yarn.resourcemanager.scheduler.address</name>
